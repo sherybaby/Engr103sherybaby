@@ -21,12 +21,12 @@
  int motorPin[] = {3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15};//array for storing pin nos
 */
 
-#include <Wire.h>
+#include <Wire.h>// Intializing the libraries.
 #include <Adafruit_MotorShield.h>
 #include "utility/Adafruit_PWMServoDriver.h"
-Adafruit_MotorShield AFMS = Adafruit_MotorShield();
-Adafruit_DCMotor *myMotor = AFMS.getMotor(1);
-int treatvalue (int data)
+Adafruit_MotorShield AFMS = Adafruit_MotorShield();// This is the motor shield being intialized.
+Adafruit_DCMotor *myMotor = AFMS.getMotor(1); // This intialize the motor.
+int treatvalue (int data) // This is convert the joystick data to be able to use for the motors.
 {
   if(data > 512 && data < 1024)
   {

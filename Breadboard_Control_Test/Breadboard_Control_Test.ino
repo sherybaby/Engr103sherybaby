@@ -1,7 +1,7 @@
 // TRANSMITTER CODE
 
 //NOTE :- THIS TRANSMITTER CODE IS USED WHEN YOU WANT TO CONTROL THE ROBOT VIA THE BREADBOARD REMOTE
-#include <VirtualWire.h>
+#include <VirtualWire.h>//Intializing Virtual wire.
 
 //Assigning controller buttons to Digital Pins
 /*int forward = 8;
@@ -11,13 +11,14 @@ int leftTurn = 11;
 int stopMotor = 12;
 int remotePins[]= {8,9,10,11,12};//array to store pin nos
 */
-int joypin1= 0;
+int joypin1= 0;//Initializing the controls
 int joypin2= 1;
 int value1 = 0;
 int motorSpeed = 0;
 String strMotorSpeed;
 char charMotorSpeed[5];
 int value2 = 0; 
+uint8_t sendData = 0;
 /*int treatvalue (int data)
 {
   if(data > 512 && data < 1024)
@@ -73,33 +74,37 @@ void setup()
 
 void loop()
 {
-  value1=analogRead(joypin1);
+  value1=analogRead(joypin1);//The joystick value is read from one potentiometer.
   delay(100);
   Serial.println(value1);
+  //Serial.println(value1);
   value2=analogRead(joypin2);
   delay(100);
   //motorSpeed=treatvalue(value1);
-  strMotorSpeed=String(value1);
-  strMotorSpeed.toCharArray(charMotorSpeed,5);
+  sendData = value1;
+  //strMotorSpeed=String(value1);
+  //strMotorSpeed.toCharArray(charMotorSpeed,5);
+  //Serial.println(charMotorSpeed);
   char *msg2;
   
-  if(value1>512)//if the forward button is pressed
+  if(value1>512)//if the forward value is found.
   {
-    char *msg2 = charMotorSpeed;//send 1 to the receiver
+    //char *msg2 = charMotorSpeed;//send 1 to the receiver
     digitalWrite(13, true); // Flash a light to show transmitting
-    vw_send((uint8_t *)msg2, strlen(msg2));//send the byte to the receiver
+    vw_send((uint8_t *)sendData, 1);//send the byte to the receiver
     vw_wait_tx(); // Wait until the whole message is gone
     digitalWrite(13, false);
   }
   
-  if(value1<512)//if the back button is pressed
+  if(value1<512)//if the back value is found.
   {
-    char *msg2 = charMotorSpeed   ;///send 2 to the receiver
+    //char *msg2 = charMotorSpeed   ;///send 2 to the receiver
     digitalWrite(13, true); // Flash a light to show transmitting
-    vw_send((uint8_t *)msg2, strlen(msg2));//send the byte to the receiver
+    vw_send((uint8_t *)sendData, 1);//send the byte to the receiver
     vw_wait_tx(); // Wait until the whole message is gone
     digitalWrite(13, false);
   }
+  //Code under here was a work in progress for the left and right function.
  /*
   if(digitalRead(leftTurn) == LOW)//if the left button is pressed
   {
